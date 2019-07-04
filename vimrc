@@ -1,290 +1,95 @@
+set nu
 let mapleader=";"
 nmap <Leader>v  <C-v>
-set mouse= 
-filetype on
-filetype plugin on
 
-" ¶¨Òå¿ì½İ¼üµ½ĞĞÊ×ºÍĞĞÎ²
-nmap LB 0
-nmap LE $
-" ÉèÖÃ¿ì½İ¼ü½«Ñ¡ÖĞÎÄ±¾¿é¸´ÖÆÖÁÏµÍ³¼ôÌù°å
-vnoremap <Leader>y "+y
-" ÉèÖÃ¿ì½İ¼ü½«ÏµÍ³¼ôÌù°åÄÚÈİÕ³ÌùÖÁ vim
-nmap <Leader>p "+p
-" ¶¨Òå¿ì½İ¼ü¹Ø±Õµ±Ç°·Ö¸î´°¿Ú
-nmap <Leader>q :q<CR>
-" ¶¨Òå¿ì½İ¼ü±£´æµ±Ç°´°¿ÚÄÚÈİ
-nmap <Leader>w :w<CR>
-" ¶¨Òå¿ì½İ¼ü±£´æËùÓĞ´°¿ÚÄÚÈİ²¢ÍË³ö vim
-nmap <Leader>WQ :wa<CR>:q<CR>
-" ²»×öÈÎºÎ±£´æ£¬Ö±½ÓÍË³ö vim
-nmap <Leader>Q :qa!<CR>
-" ÒÀ´Î±éÀú×Ó´°¿Ú
-nnoremap nw <C-W><C-W>
-" Ìø×ªÖÁÓÒ·½µÄ´°¿Ú
-nnoremap <Leader>lw <C-W>l
-" Ìø×ªÖÁ×ó·½µÄ´°¿Ú
-nnoremap <Leader>hw <C-W>h
-" Ìø×ªÖÁÉÏ·½µÄ×Ó´°¿Ú
-nnoremap <Leader>kw <C-W>k
-" Ìø×ªÖÁÏÂ·½µÄ×Ó´°¿Ú
-nnoremap <Leader>jw <C-W>j
-" ¶¨Òå¿ì½İ¼üÔÚ½á¶Ô·ûÖ®¼äÌø×ª
-nmap <Leader>M %
+call plug#begin('~/.vim/plugged')
+Plug 'w0rp/ale'
+Plug 'Yggdroot/LeaderF'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'Shougo/echodoc'
+Plug 'Valloric/YouCompleteMe'
+Plug 'scrooloose/nerdtree'
+Plug 'bling/vim-airline'
+call plug#end()
 
-" ÈÃÅäÖÃ±ä¸üÁ¢¼´ÉúĞ§
-autocmd BufWritePost $MYVIMRC source $MYVIMRC
+"ale
+"å§‹ç»ˆå¼€å¯æ ‡å¿—åˆ—
+let g:ale_sign_column_always = 1
+let g:ale_set_highlights = 0
+"è‡ªå®šä¹‰errorå’Œwarningå›¾æ ‡
+let g:ale_sign_error = 'âœ—'
+let g:ale_sign_warning = 'âš¡'
+"åœ¨vimè‡ªå¸¦çš„çŠ¶æ€æ ä¸­æ•´åˆale
+let g:ale_statusline_format = ['âœ— %d', 'âš¡ %d', 'âœ” OK']
+"æ˜¾ç¤ºLinteråç§°,å‡ºé”™æˆ–è­¦å‘Šç­‰ç›¸å…³ä¿¡æ¯
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 
-" ¿ªÆôÊµÊ±ËÑË÷¹¦ÄÜ
-set incsearch
-" ËÑË÷Ê±´óĞ¡Ğ´²»Ãô¸Ğ
-set ignorecase
-" ¹Ø±Õ¼æÈİÄ£Ê½
-set nocompatible
-" vim ×ÔÉíÃüÁîĞĞÄ£Ê½ÖÇÄÜ²¹È«
-set wildmenu
+"æ™®é€šæ¨¡å¼ä¸‹ï¼Œspå‰å¾€ä¸Šä¸€ä¸ªé”™è¯¯æˆ–è­¦å‘Šï¼Œsnå‰å¾€ä¸‹ä¸€ä¸ªé”™è¯¯æˆ–è­¦å‘Š
+nmap sp <Plug>(ale_previous_wrap)
+nmap sn <Plug>(ale_next_wrap)
+"<Leader>sè§¦å‘/å…³é—­è¯­æ³•æ£€æŸ¥
+nmap <Leader>s :ALEToggle<CR>
+"<Leader>dæŸ¥çœ‹é”™è¯¯æˆ–è­¦å‘Šçš„è¯¦ç»†ä¿¡æ¯
+nmap <Leader>d :ALEDetail<CR>
 
+" gutentags æœç´¢å·¥ç¨‹ç›®å½•çš„æ ‡å¿—ï¼Œç¢°åˆ°è¿™äº›æ–‡ä»¶/ç›®å½•åå°±åœæ­¢å‘ä¸Šä¸€çº§ç›®å½•é€’å½’
+let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
 
-" vundle »·¾³ÉèÖÃ
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-" vundle ¹ÜÀíµÄ²å¼şÁĞ±í±ØĞëÎ»ÓÚ vundle#begin() ºÍ vundle#end() Ö®¼ä
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'tomasr/molokai'
-Plugin 'vim-scripts/phd'
-Plugin 'Lokaltog/vim-powerline'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'derekwyatt/vim-fswitch'
-"Plugin 'kshenoy/vim-signature'
-"Plugin 'vim-scripts/BOOKMARKS-Mark-and-Highlight-Full-Lines'
-Plugin 'majutsushi/tagbar'
-Plugin 'vim-scripts/indexer.tar.gz'
-Plugin 'vim-scripts/DfrankUtil'
-Plugin 'vim-scripts/vimprj'
-Plugin 'dyng/ctrlsf.vim'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'vim-scripts/DrawIt'
-Plugin 'SirVer/ultisnips'
-"Plugin 'Valloric/YouCompleteMe'
-Plugin 'derekwyatt/vim-protodef'
-Plugin 'scrooloose/nerdtree'
-Plugin 'fholgado/minibufexpl.vim'
-Plugin 'gcmt/wildfire.vim'
-Plugin 'sjl/gundo.vim'
-Plugin 'Lokaltog/vim-easymotion'
-"Plugin 'suan/vim-instant-markdown'
-Plugin 'lilydjwg/fcitx.vim'
-Plugin 'kien/ctrlp.vim'
-Plugin 'tacahiroy/ctrlp-funky'
-"Plugin 'vim-scripts/OmniCppComplete'
-Plugin 'Rip-Rip/clang_complete'
-" ²å¼şÁĞ±í½áÊø
-call vundle#end()
-filetype plugin indent on
+" æ‰€ç”Ÿæˆçš„æ•°æ®æ–‡ä»¶çš„åç§°
+let g:gutentags_ctags_tagfile = '.tags'
 
-" ½ûÖ¹¹â±êÉÁË¸
-set gcr=a:block-blinkon0
-" ½ûÖ¹ÏÔÊ¾¹ö¶¯Ìõ
-set guioptions-=l
-set guioptions-=L
-set guioptions-=r
-set guioptions-=R
-" ½ûÖ¹ÏÔÊ¾²Ëµ¥ºÍ¹¤¾ßÌõ
-set guioptions-=m
-set guioptions-=T
+" å°†è‡ªåŠ¨ç”Ÿæˆçš„ tags æ–‡ä»¶å…¨éƒ¨æ”¾å…¥ ~/.cache/tags ç›®å½•ä¸­ï¼Œé¿å…æ±¡æŸ“å·¥ç¨‹ç›®å½•
+let s:vim_tags = expand('~/.cache/tags')
+let g:gutentags_cache_dir = s:vim_tags
 
+" é…ç½® ctags çš„å‚æ•°
+let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
+let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
 
-" ½«Íâ²¿ÃüÁî wmctrl ¿ØÖÆ´°¿Ú×î´ó»¯µÄÃüÁîĞĞ²ÎÊı·â×°³ÉÒ»¸ö vim µÄº¯Êı
-fun! ToggleFullscreen()
-    call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
-endf
-" È«ÆÁ¿ª/¹Ø¿ì½İ¼ü
-map <silent> <F11> :call ToggleFullscreen()<CR>
-" Æô¶¯ vim Ê±×Ô¶¯È«ÆÁ
-autocmd VimEnter * call ToggleFullscreen()
-set laststatus=2
-" ÏÔÊ¾¹â±êµ±Ç°Î»ÖÃ
-set ruler
-" ¿ªÆôĞĞºÅÏÔÊ¾
-set number
-" ¸ßÁÁÏÔÊ¾µ±Ç°ĞĞ/ÁĞ
-set cursorline
-set cursorcolumn
-" ¸ßÁÁÏÔÊ¾ËÑË÷½á¹û
-set hlsearch
+" æ£€æµ‹ ~/.cache/tags ä¸å­˜åœ¨å°±æ–°å»º
+if !isdirectory(s:vim_tags)
+   silent! call mkdir(s:vim_tags, 'p')
+endif
 
-" ÉèÖÃ gvim ÏÔÊ¾×ÖÌå
-set guifont=YaHei\ Consolas\ Hybrid\ 11.5
+"å¿«é€Ÿæ‰“å¼€æ–‡ä»¶
+let g:Lf_ShortcutF = '<c-o>'
+let g:Lf_ShortcutB = '<m-n>'
+noremap <c-n> :LeaderfMru<cr>
+"æœ¬æ–‡ä»¶çš„å‡½æ•°åˆ—è¡¨
+noremap <c-p> :LeaderfFunction!<cr>
+"noremap <m-n> :LeaderfBuffer<cr>
+"noremap <m-m> :LeaderfTag<cr>
+let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
 
-" ½ûÖ¹ÕÛĞĞ
-set nowrap
+let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
+let g:Lf_WorkingDirectoryMode = 'Ac'
+let g:Lf_WindowHeight = 0.30
+let g:Lf_CacheDirectory = expand('~/.vim/cache')
+let g:Lf_ShowRelativePath = 0
+let g:Lf_HideHelp = 1
+let g:Lf_StlColorscheme = 'powerline'
+let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
 
+â€œycmé…ç½®
+let g:ycm_add_preview_to_completeopt = 0
+let g:ycm_show_diagnostics_ui = 0
+let g:ycm_server_log_level = 'info'
+let g:ycm_min_num_identifier_candidate_chars = 2
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_complete_in_strings=1
+let g:ycm_key_invoke_completion = '<a-z>'
+set completeopt=menu,menuone
 
-" ÉèÖÃ×´Ì¬À¸Ö÷Ìâ·ç¸ñ
-let g:Powerline_colorscheme='solarized256'
+let g:ycm_semantic_triggers =  {
+			\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+			\ 'cs,lua,javascript': ['re!\w{2}'],
+			\ }
+"å‡½æ•°å‚æ•°æç¤º
+set noshowmode
+set cmdheight=2
+let g:echodoc_enable_at_startup = 1
 
-colorscheme default  
-" ¿ªÆôÓï·¨¸ßÁÁ¹¦ÄÜ
-syntax enable
-" ÔÊĞíÓÃÖ¸¶¨Óï·¨¸ßÁÁÅäÉ«·½°¸Ìæ»»Ä¬ÈÏ·½°¸
-syntax on
-syntax keyword cppSTLtype initializer_list
-
-
-" ×ÔÊÊÓ¦²»Í¬ÓïÑÔµÄÖÇÄÜËõ½ø
-filetype indent on
-" ½«ÖÆ±í·ûÀ©Õ¹Îª¿Õ¸ñ
-set expandtab
-" ÉèÖÃ±à¼­Ê±ÖÆ±í·ûÕ¼ÓÃ¿Õ¸ñÊı
-set tabstop=4
-" ÉèÖÃ¸ñÊ½»¯Ê±ÖÆ±í·ûÕ¼ÓÃ¿Õ¸ñÊı
-set shiftwidth=4
-" ÈÃ vim °ÑÁ¬ĞøÊıÁ¿µÄ¿Õ¸ñÊÓÎªÒ»¸öÖÆ±í·û
-set softtabstop=4
-
-" Ëæ vim ×ÔÆô¶¯
-let g:indent_guides_enable_on_vim_startup=1
-" ´ÓµÚ¶ş²ã¿ªÊ¼¿ÉÊÓ»¯ÏÔÊ¾Ëõ½ø
-let g:indent_guides_start_level=2
-" É«¿é¿í¶È
-let g:indent_guides_guide_size=1
-" ¿ì½İ¼ü i ¿ª/¹ØËõ½ø¿ÉÊÓ»¯
-:nmap <silent> <Leader>i <Plug>IndentGuidesToggle
-
-
-"set fileencodings=utf-8,gbk
-set fileencodings=gbk,utf-8
-
-"set encoding=utf-8
-set encoding=gbk
-"set fileencodings=utf-8,gbk,gb18030,big5,cp936
-set fileencodings=gbk,utf-8,gb18030,big5,cp936
-let &termencoding=&encoding
-set langmenu=zh_CN.UTF-8
-
-
-" *.cpp ºÍ *.h ¼äÇĞ»»
-nmap <silent> <Leader>sw :FSHere<cr>
-
-" ÉèÖÃ tagbar ×Ó´°¿ÚµÄÎ»ÖÃ³öÏÖÔÚÖ÷±à¼­ÇøµÄ×ó±ß 
-let tagbar_left=1 
-" ÉèÖÃÏÔÊ¾£¯Òş²Ø±êÇ©ÁĞ±í×Ó´°¿ÚµÄ¿ì½İ¼ü¡£ËÙ¼Ç£ºidentifier list by tag
-nnoremap <Leader>tl :TagbarToggle<CR> 
-" ÉèÖÃ±êÇ©×Ó´°¿ÚµÄ¿í¶È 
-let tagbar_width=32 
-" tagbar ×Ó´°¿ÚÖĞ²»ÏÔÊ¾ÈßÓà°ïÖúĞÅÏ¢ 
-let g:tagbar_compact=1
-" ÉèÖÃ ctags ¶ÔÄÄĞ©´úÂë±êÊ¶·ûÉú³É±êÇ©
-let g:tagbar_type_cpp = {
-    \ 'kinds' : [
-         \ 'c:classes:0:1',
-         \ 'd:macros:0:1',
-         \ 'e:enumerators:0:0', 
-         \ 'f:functions:0:1',
-         \ 'g:enumeration:0:1',
-         \ 'l:local:0:1',
-         \ 'm:members:0:1',
-         \ 'n:namespaces:0:1',
-         \ 'p:functions_prototypes:0:1',
-         \ 's:structs:0:1',
-         \ 't:typedefs:0:1',
-         \ 'u:unions:0:1',
-         \ 'v:global:0:1',
-         \ 'x:external:0:1'
-     \ ],
-     \ 'sro'        : '::',
-     \ 'kind2scope' : {
-         \ 'g' : 'enum',
-         \ 'n' : 'namespace',
-         \ 'c' : 'class',
-         \ 's' : 'struct',
-         \ 'u' : 'union'
-     \ },
-     \ 'scope2kind' : {
-         \ 'enum'      : 'g',
-         \ 'namespace' : 'n',
-         \ 'class'     : 'c',
-         \ 'struct'    : 's',
-         \ 'union'     : 'u'
-     \ }
-\ }
-
-" ÕıÏò±éÀúÍ¬Ãû±êÇ©
-nmap <Leader>tn :tnext<CR>
-" ·´Ïò±éÀúÍ¬Ãû±êÇ©
-nmap <Leader>tp :tprevious<CR>
-
-"f.vim ²å¼şÔÚ¹¤³ÌÄÚÈ«¾Ö²éÕÒ¹â±êËùÔÚ¹Ø¼ü×Ö£¬ÉèÖÃ¿ì½İ¼ü¡£¿ì½İ¼üËÙ¼Ç·¨£ºsearch in project
-"search string in project
-nnoremap <Leader>sp :CtrlSF<CR>
-
-" Ê¹ÓÃ NERDTree ²å¼ş²é¿´¹¤³ÌÎÄ¼ş¡£ÉèÖÃ¿ì½İ¼ü£¬ËÙ¼Ç£ºfile list
-nmap <Leader>fl :NERDTreeToggle<CR>
-" ÉèÖÃNERDTree×Ó´°¿Ú¿í¶È
-let NERDTreeWinSize=32
-" ÉèÖÃNERDTree×Ó´°¿ÚÎ»ÖÃ
-let NERDTreeWinPos="right"
-" ÏÔÊ¾Òş²ØÎÄ¼ş
-let NERDTreeShowHidden=1
-" NERDTree ×Ó´°¿ÚÖĞ²»ÏÔÊ¾ÈßÓà°ïÖúĞÅÏ¢
-let NERDTreeMinimalUI=1
-" É¾³ıÎÄ¼şÊ±×Ô¶¯É¾³ıÎÄ¼ş¶ÔÓ¦ buffer
-let NERDTreeAutoDeleteBuffer=1
-let g:NERDTreeDirArrows=0
-
-" ÏÔÊ¾/Òş²Ø MiniBufExplorer ´°¿Ú
-map <Leader>bl :MBEToggle<cr>
-
-" buffer ÇĞ»»¿ì½İ¼ü
-map <Leader>bn :MBEbn<cr>
-map <Leader>bp :MBEbp<cr>
-
-let g:EasyMotion_smartcase = 1
-"let g:EasyMotion_startofline = 0 " keep cursor colum when JK motion
-map <Leader><leader>h <Plug>(easymotion-linebackward)
-map <Leader><Leader>j <Plug>(easymotion-j)
-map <Leader><Leader>k <Plug>(easymotion-k)
-map <Leader><leader>l <Plug>(easymotion-lineforward)
-" ÖØ¸´ÉÏÒ»´Î²Ù×÷, ÀàËÆrepeat²å¼ş, ºÜÇ¿´ó
-map <Leader><leader>. <Plug>(easymotion-repeat)
-
-"ctrlp
-
-let g:ctrlp_map = '<leader>p'
-let g:ctrlp_cmd = 'CtrlP'
-map <leader>f :CtrlPMRU<CR>
-let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
-    \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc)$',
-    \ }
-let g:ctrlp_working_path_mode=0
-let g:ctrlp_match_window_bottom=1
-let g:ctrlp_max_height=15
-let g:ctrlp_match_window_reversed=0
-let g:ctrlp_mruf_max=500
-let g:ctrlp_follow_symlinks=1
-
-nnoremap <Leader>fu :CtrlPFunky<Cr>
-" narrow the list down with a word under cursor
-nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
-let g:ctrlp_funky_syntax_highlight = 1
-
-let g:ctrlp_extensions = ['funky']
-
-let  g:clang_library_path = '/home/work/.jumbo/lib/llvm/libclang.so'
-let g:clang_periodic_quickfix=0
-let g:clang_snippets=1
-let g:clang_close_preview=1
-let g:clang_use_library=1
-let g:clang_user_options='-stdlib=libstdc++ -std=c++11 -I'
-let g:clang_debug = 1
-"let g:clang_user_options='|| exit 0'
-let g:clang_complete_auto = 1
-let g:clang_complete_copen=1
-let g:clang_omnicppcomplete_compliance=0
-let g:clang_make_default_keymappings=1
-"g:indexer_disableCtagsWarning=1
+map <leader>t :NERDTreeToggle<CR>
